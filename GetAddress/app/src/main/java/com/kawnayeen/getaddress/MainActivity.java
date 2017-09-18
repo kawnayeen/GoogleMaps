@@ -52,9 +52,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         try {
             addresses = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            String addressStr = "";
+            StringBuilder addressStr = new StringBuilder();
             if (addresses.size() == 0) {
-                addressStr = "No address found";
+                addressStr = new StringBuilder("No address found");
             } else {
                 Address address = addresses.get(0);
                 for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
@@ -62,10 +62,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     if (addressLine == null)
                         break;
                     else
-                        addressStr += addressLine + " ";
+                        addressStr.append(addressLine).append(" ");
                 }
             }
-            addressBar.setTitle(addressStr);
+            addressBar.setTitle(addressStr.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
