@@ -51,22 +51,18 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         List<Address> addresses;
 
         try {
-            addresses = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 2); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            addresses = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             String addressStr = "";
             if (addresses.size() == 0) {
                 addressStr = "No address found";
             } else {
-                for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
-                    if (i == 0) {
-                        addressStr = addresses.get(0).getAddressLine(i);
-                    } else {
-                        addressStr += ", " + addresses.get(0).getAddressLine(i);
-                    }
-                }
-                if (addresses.get(0).getMaxAddressLineIndex() > 1) {
-                    addressStr = addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getAddressLine(1);
-                } else {
-                    addressStr = addresses.get(0).getAddressLine(0);
+                Address address = addresses.get(0);
+                for (int i = 0; i <= address.getMaxAddressLineIndex(); i++) {
+                    String addressLine = address.getAddressLine(i);
+                    if (addressLine == null)
+                        break;
+                    else
+                        addressStr += addressLine + " ";
                 }
             }
             addressBar.setTitle(addressStr);
